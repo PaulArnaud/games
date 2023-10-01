@@ -13,7 +13,7 @@ class Card:
         return f"{self._rank} of {self.suit.name.title()}"
 
     def __repr__(self) -> str:
-        return f"Card({self._rank},{self.suit.name})"
+        return f"{self._rank}-{self.suit.name}"
 
     @property
     def color(self) -> Color:

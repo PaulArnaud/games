@@ -6,23 +6,28 @@ from src.validators import (
     validate_suit,
 )
 
+
+def show_players(players: list[Player]) -> None:
+    for player in players:
+        print(player)
+
+
 if __name__ == "__main__":
     rounds = [
-        Round("Red or black", "Red or black ?", validate_color, 1),
-        Round("More or less", "More or less ?", validate_rank, 2),
-        Round("Inner or outer", "Inner or outer ?", validate_placement, 3),
-        Round("Suit", "Suit ?", validate_suit, 4),
+        Round("Red or black", "Red or black ?\n", validate_color, 1),
+        Round("More or less", "More or less ?\n", validate_rank, 2),
+        Round("Inner or outer", "Inner or outer ?\n", validate_placement, 3),
+        Round("Suit", "Suit ?\n", validate_suit, 4),
     ]
 
     paul = Player(name="Paul")
     nahel = Player(name="Nahel")
     game = Game(players=[paul, nahel], rounds=rounds)
 
-    print(len(game.deck))
-    print(game.players)
+    print(game.deck)
+    show_players(players=game.players)
 
     game.play()
 
-    print(len(game.deck))
-    for player in game.players:
-        print(player)
+    print(game.deck)
+    show_players(players=game.players)

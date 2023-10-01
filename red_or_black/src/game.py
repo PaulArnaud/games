@@ -1,4 +1,5 @@
 from .deck import Deck
+from .logging import Logger
 from .player import Player
 from .round import Round
 
@@ -15,18 +16,29 @@ class Game:
         self.deck.shuffle()
 
     def play(self) -> None:
+        Logger.print_game_info("And the game begin !")
         for i, round in enumerate(self.rounds):
-            print(f"----- Round: {round.title} -----")
+            Logger.print_game_info(f"----- Round: {round.title} -----")
             for player in self.players:
-                print(f"Player {player.name}, it's your turn")
+                Logger.print_game_question(f"Player {player.name}, it's your turn")
                 drawn_card = self.deck.draw()
                 answer = input(round.question)
 
                 player.set_round_card(i, drawn_card)
-                print(player)
-                print(f"You draw a {drawn_card}")
-                if round.validation(player, answer):
-                    print(f"You can send {round.drink_quantity} drink")
+                Logger.print_game_info(f"You draw a {drawn_card}")
+                answer_is_correct = round.validation(player, answer)
+                if answer_is_correct:
+                    Logger.print_game_order(
+                        f"You can send {round.drink_quantity} drink"
+                    )
+                    players_selection = "\n".join(
+                        [f"{i}) {player.name}" for i, player in enumerate(self.players)]
+                    )
+                    player_number = input(f"Choose a player !\n{players_selection}\n")
+                    self.players[int(player_number)].drink(
+                        quantity=round.drink_quantity
+                    )
                 else:
-                    print(f"Drink {round.drink_quantity}")
+                    Logger.print_game_order(f"Drink {round.drink_quantity}")
+                    player.drink(quantity=round.drink_quantity)
             print(f"----- End of the round {round.title} -----")

@@ -21,5 +21,8 @@ class Deck:
         """Shuffle cards of the deck"""
         self.random.shuffle(self.cards)
 
+    def __repr__(self) -> str:
+        return f"There is {len(self.cards)} cards in the deck"
+
     def __len__(self) -> int:
         return len(self.cards)
