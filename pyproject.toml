@@ -11,7 +11,22 @@ python = "^3.10"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
 ruff = "^0.0.291"
+black = "^23.9.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+select = ["E", "F", "B", "C", "N", "W", "I"]
+ignore = []
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+
+# Same as Black.
+line-length = 88
+
+target-version = "py310"
+

@@ -1,8 +1,7 @@
-from .player import Player
-
-
 from dataclasses import dataclass
 from typing import Callable
+
+from .player import Player
 
 
 @dataclass

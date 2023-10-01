@@ -1,12 +1,8 @@
-from .models import Color, Suit
 from .player import Player
 
 
-from typing import get_args
-
-
 def validate_color(player: Player, answer: str) -> bool:
-    assert answer in get_args(Color)
+    assert answer in ("red", "black")
 
     first_card = player.get_card(round_index=0)
 
@@ -46,6 +42,6 @@ def validate_placement(player: Player, answer: str) -> bool:
 
 
 def validate_suit(player: Player, answer: str) -> bool:
-    assert answer in get_args(Suit)
+    assert answer in ("diamonds", "hearts", "spades", "clubs")
 
     return player.get_card(round_index=3).suit == answer

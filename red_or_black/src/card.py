@@ -1,7 +1,7 @@
-from .models import Color, Suit
-
-
 from dataclasses import dataclass
+
+from .color import Color
+from .suit import Suit
 
 
 @dataclass
@@ -10,19 +10,27 @@ class Card:
     suit: Suit
 
     def __str__(self):
-        return f"{self.rank} of {self.suit}"
+        return f"{self._rank} of {self.suit.name.title()}"
 
     def __repr__(self) -> str:
-        return f"Card({self.rank},{self.suit})"
+        return f"Card({self._rank},{self.suit.name})"
 
     @property
     def color(self) -> Color:
-        if self.suit in ("diamonds", "hearts"):
-            return "red"
-        elif self.suit in ("clubs", "spades"):
-            return "black"
+        return self.suit.color
+
+    @property
+    def _rank(self) -> str:
+        if self.rank == 1:
+            return "As"
+        elif self.rank == 11:
+            return "Jack"
+        elif self.rank == 12:
+            return "Queen"
+        elif self.rank == 13:
+            return "King"
         else:
-            raise Exception(message="Suit is not known")
+            return f"{self.rank}"
 
     def __lt__(self, card: "Card") -> bool:
         return self.rank < card.rank

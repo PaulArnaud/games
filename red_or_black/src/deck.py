@@ -1,20 +1,17 @@
+from random import Random
+
 from .card import Card
-from .models import Suit
+from .suit import suits
 
-
-import random
-from typing import get_args
+SEED = 42
 
 
 class Deck:
     cards: list[Card]
 
-    def __init__(self) -> None:
-        cards = []
-        for i in range(1, 14):
-            for suit in get_args(Suit):
-                cards.append(Card(rank=i, suit=suit))
-        self.cards = cards
+    def __init__(self, seed: int = SEED) -> None:
+        self.cards = [Card(rank=i, suit=suit) for i in range(1, 14) for suit in suits]
+        self.random = Random(x=seed)
 
     def draw(self) -> Card:
         """Draw the first card of the deck"""
@@ -22,7 +19,7 @@ class Deck:
 
     def shuffle(self) -> None:
         """Shuffle cards of the deck"""
-        random.shuffle(self.cards)
+        self.random.shuffle(self.cards)
 
     def __len__(self) -> int:
         return len(self.cards)
