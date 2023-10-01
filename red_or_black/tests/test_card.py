@@ -1,5 +1,6 @@
+from unittest.mock import Mock
+
 import pytest
-from mock import Mock
 
 from ..src.card import Card
 from ..src.suit import Suit
@@ -8,6 +9,7 @@ from ..src.suit import Suit
 @pytest.fixture
 def suit() -> Suit:
     return Mock(Suit)
+
 
 class TestCard:
     def test_repr(self) -> None:
