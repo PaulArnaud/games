@@ -1,8 +1,8 @@
-from mock import Mock
 import pytest
+from mock import Mock
+
 from ..src.card import Card
 from ..src.suit import Suit
-
 
 
 @pytest.fixture
