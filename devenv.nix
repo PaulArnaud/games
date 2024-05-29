@@ -8,11 +8,15 @@
   packages = [ pkgs.git pkgs.poetry];
 
   # https://devenv.sh/scripts/
-  scripts.hello.exec = "echo hello from $GREET";
+  scripts.hello.exec = "echo Hello from $GREET";
+  scripts.init.exec = ''
+    poetry install
+  '';
 
   enterShell = ''
     hello
     git --version
     poetry --version
+    export PRE_COMMIT_HOME=$PWD/.pre-commit
   '';
 }
