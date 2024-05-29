@@ -171,3 +171,5 @@ devenv.local.nix
 # ruff
 .ruff_cache
 
+# poetry
+.poetry-cache-dir

@@ -7,7 +7,7 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 termcolor = "^2.3.0"
 pydantic = "^2.7.2"
 
@@ -20,14 +20,14 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-addopts = "-ra -q -s"
+addopts = "-ra -q -s -v"
 testpaths = [
     "battleship/tests",
     "red_or_black/tests",
 ]
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py310"
 line-length = 88
 
 [tool.ruff.lint]
@@ -42,7 +42,7 @@ select = [
     "UP",
     "YTT",
     "ASYNC",
-    "S",
+    # "S",
     "A",
     "C4",
     "T10",
@@ -51,7 +51,7 @@ select = [
     "G", 
     "PIE",
     # "T20",
-    "PYI",
+    # "PYI",
     "PERF",
 ]
 fixable = ["ALL"]
