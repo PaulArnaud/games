@@ -44,6 +44,7 @@ select = [
     "ASYNC",
     # "S",
     "A",
+    "I",
     "C4",
     "T10",
     "ISC",
