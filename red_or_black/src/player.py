@@ -16,7 +16,7 @@ class Player:
         return self.cards.get(round_index)
 
     def __repr__(self) -> str:
-        return f"{self.name} \n\tCards: {self.cards}\n\tShots: {self.sip_drink}"
+        return f"{self.name} - Cards: {self.cards} - Shots: {self.sip_drink}"
 
     def drink(self, quantity: int) -> None:
         self.sip_drink += quantity

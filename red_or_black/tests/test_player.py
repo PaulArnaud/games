@@ -14,7 +14,7 @@ def player() -> Player:
 
 class TestPlayer:
     def test_repr(self, player: Player) -> None:
-        assert player.__repr__() == "Paul with cards {}"
+        assert player.__repr__() == "Paul - Cards: {} - Shots: 0"
 
     def test_set_round_card(self, player: Player) -> None:
         a = Mock(Card)
