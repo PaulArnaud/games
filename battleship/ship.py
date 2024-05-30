@@ -1,10 +1,21 @@
+from itertools import pairwise
+from typing import Iterable
+
 from battleship.coordinate import Coordinate
+from battleship.exceptions import InvalidError
 
 
 class Ship:
-    def __init__(self, coordinates: list[Coordinate]) -> None:
+    def __init__(self, coordinates: Iterable[Coordinate]) -> None:
         self._coordinates = coordinates
 
     @property
-    def coordinates(self) -> list[Coordinate]:
+    def coordinates(self) -> Iterable[Coordinate]:
         return self._coordinates
+
+    def is_valid(self) -> bool:
+        return all(a.is_adjacent(b) for a, b in pairwise(self.coordinates))
+
+    def check_if_valid(self) -> None:
+        if not self.is_valid():
+            raise InvalidError

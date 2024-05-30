@@ -18,6 +18,6 @@
     git --version
     poetry --version
     export PRE_COMMIT_HOME=$PWD/.pre-commit
-    export POETRY_CACHE_DIR=$PWD/.poetry-cache-dir
+    export POETRY_CACHE_DIR=$PWD/.poetry-cache-dir                                                                                       ─╯
   '';
 }
