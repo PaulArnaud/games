@@ -38,7 +38,7 @@ def test_is_ship_not_dead() -> None:
         ]
     )
 
-    assert is_ship_dead(ship=ship, grid=grid)
+    assert not is_ship_dead(ship=ship, grid=grid)
 
 
 class TestPlayer:
