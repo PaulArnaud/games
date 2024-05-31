@@ -10,9 +10,7 @@ class Grid:
         return self._grid[coordinate.line][coordinate.column]
 
     def get_boxes(self, coordinates: list[Coordinate]) -> list[BoxValue]:
-        return [
-            self._grid[coordinate.line][coordinate.column] for coordinate in coordinates
-        ]
+        return [self.get_box(coordinate=coordinate) for coordinate in coordinates]
 
     def set_box(self, coordinate: Coordinate, value: BoxValue) -> None:
         self._grid[coordinate.line][coordinate.column] = value
@@ -29,16 +27,6 @@ class Grid:
 
     def show(self) -> None:
         print(self)
-
-    def flatten(self) -> list[Coordinate]:
-        coordinates = []
-        for i, line in enumerate(self._grid):
-            for j, _ in enumerate(line):
-                coordinates.append(Coordinate(line=i, column=j))
-        return coordinates
-
-    def copy(self) -> "Grid":
-        return Grid(matrix=self._grid.copy())
 
     @classmethod
     def new(cls, grid_size: int = 9) -> "Grid":

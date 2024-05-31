@@ -97,6 +97,7 @@ class HumanPlayer(Player):
     def ask_for_shoot(self) -> Coordinate:
         shoot = ask_for_coordinate()
         if shoot in self._shoots:
+            print(f"Play again, you already shoot this coordinate, {shoot}")
             return self.ask_for_shoot()
         return shoot
 
