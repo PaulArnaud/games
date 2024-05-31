@@ -11,8 +11,7 @@ TEST_GRID_SIZE = 3
 
 @pytest.fixture
 def test_player() -> Player:
-    grid = Grid.new(grid_size=TEST_GRID_SIZE)
-    return Player(name="example", empty_grid=grid)
+    return Player(name="example", grid_size=TEST_GRID_SIZE)
 
 
 def test_is_ship_dead() -> None:
@@ -55,7 +54,10 @@ class TestPlayer:
         ship = Ship(coordinates=[coordinate])
         test_player.place_ship_on_grid(ship=ship)
 
-        assert test_player.get_grid().get_box(coordinate=coordinate) == BoxValue.FILLED
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.FILLED
+        )
 
     def test_is_dead(self, test_player: Player) -> None:
         assert test_player.is_dead()
@@ -79,7 +81,10 @@ class TestPlayer:
         ship = Ship(coordinates=[coordinate])
         test_player.place_ship_on_grid(ship=ship)
 
-        assert test_player.get_grid().get_box(coordinate=coordinate) == BoxValue.FILLED
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.FILLED
+        )
 
         result = test_player.take_a_shoot(shoot=coordinate)
 
@@ -90,11 +95,17 @@ class TestPlayer:
         ship = Ship(coordinates=[coordinate])
         test_player.place_ship_on_grid(ship=ship)
 
-        assert test_player.get_grid().get_box(coordinate=coordinate) == BoxValue.FILLED
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.FILLED
+        )
 
         coordinate = Coordinate(line=0, column=0)
 
-        assert test_player.get_grid().get_box(coordinate=coordinate) == BoxValue.EMPTY
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.EMPTY
+        )
 
         result = test_player.take_a_shoot(shoot=coordinate)
 

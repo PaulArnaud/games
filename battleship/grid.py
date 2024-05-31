@@ -24,23 +24,21 @@ class Grid:
     def __eq__(self, other: "Grid") -> bool:
         return self._grid == other._grid
 
-    def obfuscated(self) -> "Grid":
-        copy = []
-        for line in self._grid:
-            new_line = []
-            for column in line:
-                if column == BoxValue.FILLED:
-                    new_line.append(BoxValue.EMPTY)
-                else:
-                    new_line.append(column)
-            copy.append(new_line)
-        return Grid(matrix=copy)
-
     def __repr__(self) -> str:
         return "\n".join([" ".join(line) for line in self._grid])
 
     def show(self) -> None:
         print(self)
+
+    def flatten(self) -> list[Coordinate]:
+        coordinates = []
+        for i, line in enumerate(self._grid):
+            for j, _ in enumerate(line):
+                coordinates.append(Coordinate(line=i, column=j))
+        return coordinates
+
+    def copy(self) -> "Grid":
+        return Grid(matrix=self._grid.copy())
 
     @classmethod
     def new(cls, grid_size: int = 9) -> "Grid":

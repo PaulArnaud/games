@@ -1,7 +1,7 @@
 from itertools import pairwise
 from typing import Iterable
 
-from battleship.coordinate import Coordinate
+from battleship.coordinate import Coordinate, ask_for_coordinate
 from battleship.exceptions import InvalidError
 
 
@@ -19,3 +19,11 @@ class Ship:
     def check_if_valid(self) -> None:
         if not self.is_valid():
             raise InvalidError
+
+
+def ask_for_ship(ship_size: int) -> Ship:
+    print(f"Enter coordinates for the ship of size {ship_size}")
+    coordinates = [ask_for_coordinate() for _ in range(ship_size)]
+    ship = Ship(coordinates=coordinates)
+    ship.check_if_valid()
+    return ship
