@@ -13,6 +13,9 @@ def test_grid() -> Grid:
 
 
 class TestGrid:
+    def test_repr(self, test_grid: Grid)-> None:
+        assert str(test_grid) == "0 0 0\n0 0 0\n0 0 0"
+
     @pytest.mark.parametrize("column", range(TEST_GRID_SIZE))
     @pytest.mark.parametrize("line", range(TEST_GRID_SIZE))
     def test_get_box(self, test_grid: Grid, column: int, line: int) -> None:
@@ -27,10 +30,22 @@ class TestGrid:
 
         assert test_grid.get_box(coordinate=coordinate) == BoxValue.FILLED
 
+    def test_set_boxes(self, test_grid: Grid) -> None:
+        c1 = Coordinate(column=0, line=0)
+        c2 = Coordinate(column=1, line=1)
+        c3 = Coordinate(column=2, line=2)
+        coordinates = [c1, c2, c3]
+        test_grid.set_boxes(coordinates=coordinates, value=BoxValue.FILLED)
+
+        assert test_grid.get_boxes(coordinates=coordinates) == [
+            BoxValue.FILLED,
+            BoxValue.FILLED,
+            BoxValue.FILLED,
+        ]
+
     def test_box_is_equal(self, test_grid: Grid) -> None:
         grid = Grid.new(grid_size=TEST_GRID_SIZE)
         assert grid == test_grid
-
 
     @pytest.mark.parametrize(
         "grid_size",

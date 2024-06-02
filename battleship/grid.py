@@ -1,5 +1,9 @@
+import logging
+
 from battleship.box_value import BoxValue
 from battleship.coordinate import Coordinate
+
+logger = logging.getLogger(__name__)
 
 
 class Grid:
@@ -26,7 +30,7 @@ class Grid:
         return "\n".join([" ".join(line) for line in self._grid])
 
     def show(self) -> None:
-        print(self)
+        logger.info(self)
 
     @classmethod
     def new(cls, grid_size: int = 9) -> "Grid":

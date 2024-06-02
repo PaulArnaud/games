@@ -21,9 +21,8 @@ class Ship:
             raise InvalidError
 
 
-def ask_for_ship(ship_size: int) -> Ship:
-    print(f"Enter coordinates for the ship of size {ship_size}")
-    coordinates = [ask_for_coordinate() for _ in range(ship_size)]
+def ask_for_ship(ship_size: int, plan_size: int) -> Ship:
+    coordinates = [ask_for_coordinate(plan_size=plan_size) for _ in range(ship_size)]
     ship = Ship(coordinates=coordinates)
     ship.check_if_valid()
     return ship

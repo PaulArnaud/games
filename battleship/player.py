@@ -1,8 +1,12 @@
+import logging
+
 from battleship.box_value import BoxValue
 from battleship.coordinate import Coordinate, ask_for_coordinate
 from battleship.exceptions import InputError, InvalidError
 from battleship.grid import Grid
 from battleship.ship import Ship, ask_for_ship
+
+logger = logging.getLogger(__name__)
 
 
 def is_ship_dead(ship: Ship, grid: Grid) -> bool:
@@ -20,8 +24,12 @@ class Player:
         self.name = name
         self._shoots = []
         self._ships = []
-        self._ships_grid = Grid.new(grid_size=grid_size)
-        self._shoots_grid = Grid.new(grid_size=grid_size)
+        self.grid_size = grid_size
+        self._init_grids()
+
+    def _init_grids(self) -> None:
+        self._ships_grid = Grid.new(grid_size=self.grid_size)
+        self._shoots_grid = Grid.new(grid_size=self.grid_size)
 
     def get_ships_grid(self) -> Grid:
         return self._ships_grid
@@ -47,7 +55,11 @@ class Player:
         if BoxValue.FILLED in boxes:
             raise InvalidError("There is already a ship right there")
         elif BoxValue.TOUCHED in boxes or BoxValue.WATER in boxes:
-            raise NotImplementedError
+            e = NotImplementedError(
+                "You can't put a ship on a TOUCHED or WATER box as this is not possible !"
+            )
+            logger.error(exc_info=e)
+            raise e
         else:
             self._ships_grid.set_boxes(
                 coordinates=ship.coordinates, value=BoxValue.FILLED
@@ -55,9 +67,9 @@ class Player:
             self._ships.append(ship)
 
     def show(self) -> None:
-        print(f"Player: {self.name}")
-        print(f"{self.name}'s grid:")
-        self._ships_grid.show()
+        logger.info(f"Player: {self.name}")
+        logger.info(f"{self.name}'s ships grid:\n{self._ships_grid}")
+        logger.info(f"{self.name}'s shoots grid:\n{self._shoots_grid}")
 
     def get_living_ships(self) -> list[Ship]:
         return [
@@ -95,17 +107,29 @@ class HumanPlayer(Player):
         super().__init__(name=name, grid_size=grid_size)
 
     def ask_for_shoot(self) -> Coordinate:
-        shoot = ask_for_coordinate()
+        logger.info(f"[{self.name}] Please enter a coordinate for the shoot")
+        try:
+            shoot = ask_for_coordinate(plan_size=self.grid_size)
+        except (InputError, InvalidError) as e:
+            logger.info("Retry, this shoot is not valid")
+            logger.error("Invalid shoot", exc_info=e)
+            return self.ask_for_shoot()
+
         if shoot in self._shoots:
-            print(f"Play again, you already shoot this coordinate, {shoot}")
+            logger.info(f"Play again, you already shoot this coordinate, {shoot}")
             return self.ask_for_shoot()
         return shoot
 
     def ask_for_ship(self, ship_size: int) -> Ship:
+        logger.info(
+            f"[{self.name}] Please enter coordinates for the ship of size {ship_size}",
+        )
         try:
-            ship = ask_for_ship(ship_size=ship_size)
+            ship = ask_for_ship(ship_size=ship_size, plan_size=self.grid_size)
             self.place_ship_on_grid(ship=ship)
-        except (InvalidError, InputError):
+        except (InvalidError, InputError) as e:
+            logger.info("Retry, this ship is not valid")
+            logger.error("Invalid ship", exc_info=e)
             return self.ask_for_ship(ship_size=ship_size)
 
 

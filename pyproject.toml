@@ -49,7 +49,7 @@ select = [
     "T10",
     "ISC",
     "ICN", 
-    "G", 
+    # "G", 
     "PIE",
     # "T20",
     # "PYI",

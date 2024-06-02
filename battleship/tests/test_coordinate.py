@@ -1,6 +1,7 @@
 import pytest
 
 from battleship.coordinate import Coordinate
+from battleship.exceptions import InvalidError
 
 TEST_GRID_SIZE = 3
 
@@ -40,3 +41,14 @@ class TestCoordinate:
         c2 = Coordinate(line=1, column=0)
 
         assert c1 != c2
+
+    @pytest.mark.parametrize("test_plan_size", [2, 4, 5])
+    def test_check_if_valid(self, test_plan_size: int) -> None:
+        c1 = Coordinate(line=0, column=0)
+
+        c1.check_if_valid(plan_size=test_plan_size)
+
+        c2 = Coordinate(line=10, column=0)
+
+        with pytest.raises(InvalidError):
+            c2.check_if_valid(plan_size=test_plan_size)

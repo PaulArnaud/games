@@ -11,7 +11,7 @@ TEST_GRID_SIZE = 3
 
 @pytest.fixture
 def test_player() -> Player:
-    return Player(name="example", grid_size=TEST_GRID_SIZE)
+    return Player(name="test", grid_size=TEST_GRID_SIZE)
 
 
 def test_is_ship_dead() -> None:
@@ -41,6 +41,13 @@ def test_is_ship_not_dead() -> None:
 
 
 class TestPlayer:
+    def test_player_initialization(self, test_player: Player) -> None:
+        assert test_player.name == "test"
+        assert test_player.get_shoots() == []
+        assert test_player.get_ships() == []
+        assert test_player.get_ships_grid() == Grid.new(grid_size=TEST_GRID_SIZE)
+        assert test_player.get_shoots_grid() == Grid.new(grid_size=TEST_GRID_SIZE)
+
     def test_save_shoots(self, test_player: Player) -> None:
         assert test_player._shoots == []
 
@@ -51,6 +58,10 @@ class TestPlayer:
 
     def test_place_ship_on_grid(self, test_player: Player) -> None:
         coordinate = Coordinate(line=1, column=0)
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.EMPTY
+        )
         ship = Ship(coordinates=[coordinate])
         test_player.place_ship_on_grid(ship=ship)
 
@@ -78,6 +89,10 @@ class TestPlayer:
 
     def test_take_a_shoot_on_ship(self, test_player: Player) -> None:
         coordinate = Coordinate(line=1, column=0)
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.EMPTY
+        )
         ship = Ship(coordinates=[coordinate])
         test_player.place_ship_on_grid(ship=ship)
 
@@ -92,6 +107,10 @@ class TestPlayer:
 
     def test_take_a_shoot_in_water(self, test_player: Player) -> None:
         coordinate = Coordinate(line=1, column=0)
+        assert (
+            test_player.get_ships_grid().get_box(coordinate=coordinate)
+            == BoxValue.EMPTY
+        )
         ship = Ship(coordinates=[coordinate])
         test_player.place_ship_on_grid(ship=ship)
 
